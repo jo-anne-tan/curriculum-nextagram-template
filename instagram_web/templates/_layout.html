@@ -3,17 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <script src="https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js"></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
-
     {% assets "home_css" %}
       <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets %}
-
     {% assets "home_js" %}
       <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
-
     {% block header %}
     {% endblock %}
 
@@ -23,8 +20,32 @@
     </title>
 
   </head>
-  <body class="mx-auto p-3">
-    <!-- Flash message -->
+  <body class="mx-auto pl-3">
+    
+    
+    <!----------------------Links----------------------------------------------->
+    <div class="d-flex justify-content-around py-3">
+      <a href="{{url_for('home')}}">Home</a>
+      {% if current_user.is_anonymous %}
+      <a href="{{url_for('users.new')}}">Create an account</a>
+      <a href="{{url_for('sessions.login')}}">Log in</a>
+      {% else %}
+      <a href="{{url_for('sessions.logout')}}">Sign out</a>
+      <a href="{{url_for('users.edit', id=current_user.id)}}">Edit User Details</a>
+      <a href="{{url_for('users.profile_photo',id=current_user.id)}}">Upload profile photo</a>
+      <a href="{{url_for('users.show',username=current_user.name)}}">My profile</a>
+      <a href="{{url_for('followers.index',acc_id=current_user.id)}}">Review follow requests</a>
+      {% endif %}
+      <a href="{{url_for('users.index')}}">View all users</a>
+    </div>
+    <br/>
+    <!------------------- Greeting ------------------------------------------->
+    {% if current_user.is_authenticated %}
+    <h4 style="color:blue">Howdy, {{current_user.name}}!</h4>
+    {% else %}
+    <h4>You're not logged in. </h4>
+    {% endif %}
+    <!------------------- Flash messages ------------------------------------------->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class=flashes>
@@ -34,15 +55,18 @@
             </ul>
         {% endif %}
     {% endwith %}
-    
-    {% if 'username' in session %}
-    <h4 style="color:blue">Howdy, {{session['username']}}!</h4>
-    {% else %}
-    <h4>You're not logged in. </h4>
-    {% endif %}
+    <!----------------------Error list----------------------------------------------->
+    <ul>
+    {% for error in errors if errors|length>0 %}
+        <li>{{error}}</li>
+    {% endfor%}
+    </ul>
+    <br/>
 
+    <div style="width: 100%;">
     {% block content %}
     {% endblock %}
+    </div>
     <footer>
       Made with &hearts; at <a target="_blank" href="https://www.nextacademy.com/?utm_source=github&utm_medium=student-challenge&utm_campaign=flask-nextagram">NEXT Academy</a>
     </footer>

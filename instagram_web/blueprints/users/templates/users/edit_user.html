@@ -1,0 +1,72 @@
+{% extends "_layout.html"%}
+{% block title %}
+  Change User Settings
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+
+{% block content %}
+<div class="container col-8 mx-auto">
+    <h1>Edit user details</h1>
+    <h6>User id: {{id}}</h6>
+    <br/>
+    <h5>Hello, {{current_user.name}}!</h5>
+    <br/>
+    <form action="{{url_for('users.toggle_privacy', id=current_user.id)}}" method="post" class="form-control" id="private_profile_form">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
+        {% if current_user.private %}
+        <p>Your profile is set to private.</p>
+        <input type="submit" value="Make public" class="btn btn-primary">
+        {% else %}
+        <p>Your profile is set to public</p>
+        <input type="submit" value="Make private" class="btn btn-danger">
+
+        {% endif %}
+        
+        
+    </form>
+    <br/>
+    <form action="{{url_for('users.update_email', id=current_user.id)}}" method="POST" class="form-control">
+        <h3>Change email</h3>
+        <span>Current email is </span>
+        <span style="color:deeppink; font-weight:600;">{{current_user.email}}</span>
+        <hr/>
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
+        <div class="form-group">
+            <label for="name">New Email:</label>
+            <input type="email" name="new_email" class="form-control" placeholder="SuperMooo"/>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password_1" class="form-control" placeholder="**********"/>
+            <small>Please provide your password to continue.</small>
+        </div>
+        <button class="btn btn-danger" >Submit</button>
+    </form>
+    <br/>
+
+    <form action="{{url_for('users.update_password',id=current_user.id)}}" method="POST" class="form-control">
+        <h3>Change Password</h3>
+        <hr/>
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
+        <div class="form-group">
+            <label for="new_password">New password:</label>
+            <input type="password" name="new_password_1" class="form-control" placeholder="**********"/>
+        </div>
+        <div class="form-group">
+            <label for="new_password">Confirm new password:</label>
+            <input type="password" name="new_password_2" class="form-control" placeholder="**********"/>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password_2" class="form-control" placeholder="**********"/>
+            <small>Please provide your current password to continue.</small>
+        </div>
+        <button class="btn btn-danger" >Submit</button>
+    </form>
+    <br/>
+</div>
+
+{% endblock %}
