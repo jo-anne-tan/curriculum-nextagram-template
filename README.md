@@ -1,3 +1,12 @@
+# Here's how you can enjoy this app:
+1. Sign up for an account. If you already have an account, log in.
+2. To upload photos, go to "My Profile" and click "Upload photos".
+3. To view other users, go to "View all users". You can visit their profile pages here. 
+   Some profiles are public, some are private. 
+   Public profiles are open to all to see, and you can make "donations" to their photos.
+   Private profiles will require you to send a follow request first. Once approved, you'll be able to see their profiles + make donations
+4. You can view your feed at "Home" once you follow profiles.
+
 # Flask Nextagram Template
 
 version 0.0.1 (alpha)
